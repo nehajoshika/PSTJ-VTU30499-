@@ -1,0 +1,60 @@
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+
+        List<Integer> result = new ArrayList<>();
+
+        if (s.length() < p.length()) {
+            return result;
+        }
+
+        int[] pCount = new int[26];
+        int[] window = new int[26];
+
+        // Count characters in p
+        for (char c : p.toCharArray()) {
+            pCount[c - 'a']++;
+        }
+
+        int k = p.length();
+
+        // First window
+        for (int i = 0; i < k; i++) {
+            window[s.charAt(i) - 'a']++;
+        }
+
+        if (Arrays.equals(pCount, window)) {
+            result.add(0);
+        }
+
+        // Slide the window
+        for (int i = k; i < s.length(); i++) {
+
+            // Add new character
+            window[s.charAt(i) - 'a']++;
+
+            // Remove old character
+            window[s.charAt(i - k) - 'a']--;
+
+            if (Arrays.equals(pCount, window)) {
+                result.add(i - k + 1);
+            }
+        }
+
+        return result;
+    }
+}
+
+Output:
+Accepted
+Runtime: 0 ms
+Case 1
+Case 2
+Input
+s =
+"cbaebabacd"
+p =
+"abc"
+Output
+[0,6]
+Expected
+[0,6]
